@@ -21,8 +21,8 @@ def pancake_sort_a_star(stack):
     heappush(open_set, (initial[1] + initial[2], initial))  # (f(n), nodo)
     
     goal = sorted(stack, reverse=True)
-    
-    while open_set:
+    i = 0
+    while i < 100:
         _, (current_stack, g_n, _, path) = heappop(open_set)
         
         if current_stack == goal:
@@ -35,8 +35,10 @@ def pancake_sort_a_star(stack):
                 new_h_n = find_inversions(new_stack)
                 new_path = path + [k]
                 heappush(open_set, (new_g_n + new_h_n, (new_stack, new_g_n, new_h_n, new_path)))
+        
+        i += 1
     
-    return []  # En caso de que no haya solución, lo cual es teóricamente imposible en este contexto
+    return heappop(open_set)  # En caso de que no haya solución, lo cual es teóricamente imposible en este contexto
 
 # Ejemplo de uso
 pancakes = [1, 4, 3, 2, 5]
