@@ -137,59 +137,53 @@
 # plt.show()
 
 #Codigo de ChatGpt
-import random
+from collections import deque
 
-# Define the fitness function to minimize the number of out-of-order pairs
-def fitness(stack):
-    return sum(1 for i in range(len(stack) - 1) if stack[i] < stack[i + 1])
+def flip(arr, k):
+    """Flips the first k+1 elements of arr."""
+    arr[:k+1] = arr[:k+1][::-1]
 
-# Function to mutate the chromosome by swapping two random elements
-def mutate(chromosome):
-    idx1, idx2 = random.sample(range(len(chromosome)), 2)
-    chromosome[idx1], chromosome[idx2] = chromosome[idx2], chromosome[idx1]
-    return chromosome
+def generate_permutations(arr):
+    """Generates all permutations by performing all possible flips on the current permutation."""
+    permutations = []
+    for i in range(len(arr)):
+        new_arr = arr[:]
+        flip(new_arr, i)
+        permutations.append((tuple(new_arr), i))
+    return permutations
 
-# Function to crossover two parents to create a child chromosome
-def crossover(parent1, parent2):
-    cross_point = random.randint(0, len(parent1) - 1)
-    child = parent1[:cross_point] + parent2[cross_point:]
-    return child
+def pancake_graph_sort(arr):
+    """Sorts the array using the Pancake graph approach and returns the sequence of flips."""
+    n = len(arr)
+    target = tuple(sorted(arr, reverse=True))
+    start = tuple(arr)
+    
+    if start == target:
+        return []
 
-# Generate the initial population of random permutations
-def generate_initial_population(pancakes, population_size):
-    return [random.sample(pancakes, len(pancakes)) for _ in range(population_size)]
+    queue = deque([(start, [])])
+    visited = set([start])
+    
+    while queue:
+        current, flips = queue.popleft()
+        
+        for new_perm, flip_index in generate_permutations(list(current)):
+            if new_perm == target:
+                return flips + [flip_index + 1]
+            if new_perm not in visited:
+                visited.add(new_perm)
+                queue.append((new_perm, flips + [flip_index + 1]))
 
-# Function to perform a flip operation on the stack
-def flip(stack, k):
-    return stack[:k+1][::-1] + stack[k+1:]
-
-# Genetic algorithm to sort the pancakes
-def genetic_algorithm(pancakes, generations=1000, population_size=100):
-    population = generate_initial_population(pancakes, population_size)
-    for _ in range(generations):
-        population = sorted(population, key=fitness)
-        next_gen = population[:population_size // 2]
-        for _ in range(population_size // 2):
-            parents = random.sample(next_gen, 2)
-            child = crossover(parents[0], parents[1])
-            if random.random() < 0.1:
-                child = mutate(child)
-            next_gen.append(child)
-        population = next_gen
-    best_solution = sorted(population, key=fitness)[0]
-    flips = []
-    stack = best_solution[:]
-    for i in range(len(stack) - 1, 0, -1):
-        max_index = stack.index(max(stack[:i+1]))
-        if max_index != i:
-            if max_index != 0:
-                stack = flip(stack, max_index)
-                flips.append(max_index)
-            stack = flip(stack, i)
-            flips.append(i)
-    return flips
+    return []
 
 # Example usage
-pancakes = [1, 4, 3, 2, 5]
-flips = genetic_algorithm(pancakes)
-print("Flips to sort the pancakes:", flips)
+arreglo = [1, 4, 3, 2, 5]
+flips = pancake_graph_sort(arreglo)
+print("Secuencia de flips:", flips)
+print("Arreglo ordenado:", sorted(arreglo, reverse=True))  # This should print the sorted array [5, 4, 3, 2, 1]
+
+
+
+
+
+
