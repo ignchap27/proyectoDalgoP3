@@ -61,14 +61,12 @@ def pancake_sort_greedy(arr):
         
         #reverse the array from the nth index
         arr = flip(arr, index_largest_element)
-        # arr = arr[:index_largest_element] + arr[index_largest_element:][::-1]
         
         if index_largest_element != len(arr)-1:
             answer.append(index_largest_element)
             
         #reverse the full array
         arr = flip(arr, index)
-        # arr = arr[:index] + arr[index:][::-1]
         
         answer.append(index)
     
@@ -101,7 +99,7 @@ def main():
     
     for i in range(0, ncasos):
         numeros = [int(num) for num in linea.split()]
-        if len(numeros) > 10:
+        if len(numeros) < 10:
             respuesta = pancake_graph_sort(numeros)
         else:
             respuesta = pancake_sort_greedy(numeros)
