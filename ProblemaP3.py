@@ -1,6 +1,6 @@
-import random
 from collections import deque
 import heapq
+import sys
 
 def fitness(stack):
     return sum(1 for i in range(len(stack) - 1) if stack[i] < stack[i + 1])
@@ -70,29 +70,52 @@ def pancake_sort_greedy(arr):
         
         answer.append(index)
     
-    return answer, arr
+    return answer
 
-arreglo = []
-for i in range(1, 1000+1):
-    arreglo.append(i)
-random.shuffle(arreglo)
+# arreglo = []
+# for i in range(1, 1000+1):
+#     arreglo.append(i)
+# random.shuffle(arreglo)
 
-# arreglo = [1, 4, 3, 2, 5]
+# # arreglo = [1, 4, 3, 2, 5]
 
-print("Arreglo desordenado:", arreglo)  # This should print the shuffled array [5, 4, 3, 2, 1]
+# print("Arreglo desordenado:", arreglo)  # This should print the shuffled array [5, 4, 3, 2, 1]
 
-flips, arr = pancake_sort_greedy(arreglo)
+# flips = pancake_sort_greedy(arreglo)
 
-print("Secuencia de flips:", flips)
-#print("Arreglo ordenado:", sorted(arreglo, reverse=True))  # This should print the sorted array [5, 4, 3, 2, 1]
-# print(arreglo)
+# print("Secuencia de flips:", flips)
+# #print("Arreglo ordenado:", sorted(arreglo, reverse=True))  # This should print the sorted array [5, 4, 3, 2, 1]
+# # print(arreglo)
 
-for i in flips:
-    arreglo = flip(arreglo,i)
+# for i in flips:
+#     arreglo = flip(arreglo,i)
     
-print("comprobacion: ", arreglo)
+# print("comprobacion: ", arreglo)
 
+def main():
+    linea = sys.stdin.readline()
+    ncasos = int(linea)
+    linea = sys.stdin.readline()
+    
+    for i in range(0, ncasos):
+        numeros = [int(num) for num in linea.split()]
+        if len(numeros) > 10:
+            respuesta = pancake_graph_sort(numeros)
+        else:
+            respuesta = pancake_sort_greedy(numeros)
+            
+        if len(respuesta) == 0:
+         answer = "ORDENADO"
+        else:
+            ans = []
+            for i in respuesta:
+                ans.append(str(i))
+                
+            answer = " ".join(ans)
+            
+        print(answer)
+        linea = sys.stdin.readline()
 
-
+main()
 
 
