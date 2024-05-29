@@ -4,42 +4,16 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 
-def N_queens(representacion, population, generations_size, elitism=True):
+def pancake_Sort(representacion):
     #Inicializamos nuestra instancia de pyeasyga
     ga = pyeasyga.GeneticAlgorithm(representacion,
-                                population_size=population,
-                                generations=generations_size,
+                                population_size=100,
+                                generations=500,
                                 crossover_probability=0.8,
                                 mutation_probability=0.2,
-                                elitism=elitism,
+                                elitism=True,
                                 maximise_fitness=False)
 
-    def print_board(board_representation):
-        def print_x_in_row(row_length, x_position):
-            print('', end = '')
-            for _ in range(row_length):
-                print('---', end = '')
-            print('\n|', end = '')
-            for i in range(row_length):
-                if i == x_position:
-                    print('{} |'.format('X'), end = '')
-                else:
-                    print('  |', end = '')
-            print('')
-
-        def print_board_bottom(row_length):
-            print('', end = '')
-            for _ in range(row_length):
-                print('---', end = '')
-
-        num_of_rows = len(board_representation)
-        row_length = num_of_rows    #rows == columns in a chessboard
-
-        for row in range(num_of_rows):
-            print_x_in_row(row_length, board_representation[row])
-
-        print_board_bottom(row_length)
-        print('\n', end = '')
         
     #Funcion que crea individuos, para la creacion de la población inicial
     def create_individual(data):
