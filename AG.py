@@ -177,10 +177,12 @@ def pancake_graph_sort(arr):
     return []
 
 # Example usage
-arreglo = [1, 4, 3, 2, 5]
+arreglo = [1, 4, 3, 2, 5] #2 3 4 1 5 -> 4 3 2 1 5 -> 1 2 3 4 5 -> 5 4 3 2 1 
 flips = pancake_graph_sort(arreglo)
 print("Secuencia de flips:", flips)
-print("Arreglo ordenado:", sorted(arreglo, reverse=True))  # This should print the sorted array [5, 4, 3, 2, 1]
+for i in flips:
+    flip(arreglo, i-1)
+print("Arreglo ordenado:", arreglo)  # This should print the sorted array [5, 4, 3, 2, 1]
 
 
 
