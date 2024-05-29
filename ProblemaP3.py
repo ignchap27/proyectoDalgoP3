@@ -35,17 +35,17 @@ def pancake_graph_sort(arr):
     queue = deque([(start, [])])
     visited = set([start])
     i = 0
-    while queue:
+    while queue: #N
         # _,current, flips = heapq.heappop(heap)
         current,flips = queue.popleft()
         
-        for new_perm, flip_index in generate_permutations(list(current)):
+        for new_perm, flip_index in generate_permutations(list(current)): #Generar todas las permitaciones es N
             if new_perm == target:
                 return flips + [flip_index + 1]
             if new_perm not in visited:
                 visited.add(new_perm)
                 # heapq.heappush(heap, (fitness(new_perm),new_perm, flips + [flip_index + 1]))
-                queue.append((fitness(new_perm), new_perm, flips + [flip_index + 1]))
+                queue.append((new_perm, flips + [flip_index + 1]))
         i += 1
         
     return []
