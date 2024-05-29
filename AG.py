@@ -3,9 +3,7 @@ from collections import deque
 
 def flip(arr, k):
     """Flips the elements of arr starting from index k."""
-    print("antes: ",arr[k:], k)
     arr[k:] = arr[k:][::-1]
-    print("despues: ",arr[k:], k)
 
 
 def generate_permutations(arr):
@@ -28,7 +26,7 @@ def pancake_graph_sort(arr):
 
     queue = deque([(start, [])])
     visited = set([start])
-    
+    i = 0
     while queue:
         current, flips = queue.popleft()
         
@@ -38,19 +36,24 @@ def pancake_graph_sort(arr):
             if new_perm not in visited:
                 visited.add(new_perm)
                 queue.append((new_perm, flips + [flip_index + 1]))
-
+        i += 1
+        
     return []
 
 arreglo = []
-for i in range(1, 100+1):
+for i in range(1, 15+1):
     arreglo.append(i)
 random.shuffle(arreglo)
+print("Arreglo desordenado:", arreglo)  # This should print the shuffled array [5, 4, 3, 2, 1]
+
 flips = pancake_graph_sort(arreglo)
+
 print("Secuencia de flips:", flips)
 #print("Arreglo ordenado:", sorted(arreglo, reverse=True))  # This should print the sorted array [5, 4, 3, 2, 1]
-print(arreglo)
+# print(arreglo)
 for i in flips:
     flip(arreglo,i-1)
+    
 print("comprobacion: ", arreglo)
 
 
