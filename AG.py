@@ -101,16 +101,13 @@ def pancake_Sort(representacion):
     avg_fitness_history = []
 
     #Ahora generemos las siguientes N generaciones
-    for i in range(1, generations+1):
+    for i in range(1, 500+1):
         print("Generacion #{}".format(i))
         ga.create_next_generation()
         average, best_individual = datos_generacion()
         
         avg_fitness_history.append(average)
         best_individual_fitness_history.append(best_individual[0])
-        # if i == cantidad_generaciones:
-        #     print("Generacion #{}".format(i))
-        #     print_board(ga.best_individual()[1])
         
     #Para correr todas las generaciones definidas en la inicialización de ga.
     ga.run()
@@ -123,36 +120,18 @@ def pancake_Sort(representacion):
 
 # # representacion = [i for i in range(1, int(n_queens)+1)]
 
-representacion = []
-n=12
-#population_size = 200
-generations = 100
-
-
-for i in range(1, int(n)+1):
-    representacion.append(i)
+representacion = [1, 4, 3, 2, 5]
     
-#best_individual_fitness, avg_fitness = N_queens(representacion, population_size, generations)
+best_individual_fitness, avg_fitness = pancake_Sort(representacion)
 
-# print("Fitness promedio por generación: ", avg_fitness)
-# print("Mejor fitness por generación: ", best_individual_fitness)
+print("Fitness promedio por generación: ", avg_fitness)
+print("Mejor fitness por generación: ", best_individual_fitness)
 
-# plt.figure(figsize=(10, 5))
-# plt.plot(avg_fitness, label='Average Fitness')
-# plt.plot(best_individual_fitness, label='Best Individual Fitness')
-# plt.xlabel('Generation')
-# plt.ylabel('Fitness')   
-# plt.title('Evolution of Avg Fitness With population size: {}'.format(population_size))
-# plt.legend()
-# plt.show()
-
-for i in [10, 100, 200, 500]:
-    best_individual_fitness, avg_fitness = N_queens(representacion, i, generations, False) # Con el parametro false no tendria activado el elitismo
-    plt.figure(figsize=(10, 5))
-    plt.plot(avg_fitness, label='Average Fitness')
-    plt.plot(best_individual_fitness, label='Best Individual Fitness')
-    plt.xlabel('Generation')
-    plt.ylabel('Fitness')   
-    plt.title('Evolution of Avg Fitness With Population Size: {}'.format(i))
-    plt.legend()
-    plt.show()
+plt.figure(figsize=(10, 5))
+plt.plot(avg_fitness, label='Average Fitness')
+plt.plot(best_individual_fitness, label='Best Individual Fitness')
+plt.xlabel('Generation')
+plt.ylabel('Fitness')   
+plt.title('Evolution of Avg Fitness With population size: {}'.format(population_size))
+plt.legend()
+plt.show()
