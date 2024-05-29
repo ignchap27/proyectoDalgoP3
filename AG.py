@@ -2,8 +2,11 @@ import random
 from collections import deque
 
 def flip(arr, k):
-    """Flips the first k+1 elements of arr."""
-    arr[:k+1] = arr[:k+1][::-1]
+    """Flips the elements of arr starting from index k."""
+    print("antes: ",arr[k:], k)
+    arr[k:] = arr[k:][::-1]
+    print("despues: ",arr[k:], k)
+
 
 def generate_permutations(arr):
     """Generates all permutations by performing all possible flips on the current permutation."""
@@ -44,6 +47,13 @@ for i in range(1, 100+1):
 random.shuffle(arreglo)
 flips = pancake_graph_sort(arreglo)
 print("Secuencia de flips:", flips)
+#print("Arreglo ordenado:", sorted(arreglo, reverse=True))  # This should print the sorted array [5, 4, 3, 2, 1]
+print(arreglo)
 for i in flips:
-    flip(arreglo, i-1)
-print("Arreglo ordenado:", arreglo)  # This should print the sorted array [5, 4, 3, 2, 1]
+    flip(arreglo,i-1)
+print("comprobacion: ", arreglo)
+
+
+
+
+
