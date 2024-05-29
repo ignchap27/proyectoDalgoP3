@@ -1,9 +1,13 @@
 import random
 from collections import deque
+import heapq
+
+def fitness(stack):
+    return sum(1 for i in range(len(stack) - 1) if stack[i] < stack[i + 1])
 
 def flip(arr, k):
-    """Flips the elements of arr starting from index k."""
-    arr[k:] = arr[k:][::-1]
+    """Función auxiliar para voltear el array desde 0 hasta k"""
+    return arr[:k] + arr[k:][::-1]
 
 
 def generate_permutations(arr):
@@ -11,7 +15,7 @@ def generate_permutations(arr):
     permutations = []
     for i in range(len(arr)):
         new_arr = arr[:]
-        flip(new_arr, i)
+        new_arr = flip(new_arr, i)
         permutations.append((tuple(new_arr), i))
     return permutations
 
@@ -23,36 +27,68 @@ def pancake_graph_sort(arr):
     
     if start == target:
         return []
-
+    
+    # heap = []
+    # heapq.heappush(heap, (fitness(start), start, []))
     queue = deque([(start, [])])
     visited = set([start])
     i = 0
     while queue:
-        current, flips = queue.popleft()
+        # _,current, flips = heapq.heappop(heap)
+        current,flips = queue.popleft()
         
         for new_perm, flip_index in generate_permutations(list(current)):
             if new_perm == target:
                 return flips + [flip_index + 1]
             if new_perm not in visited:
                 visited.add(new_perm)
-                queue.append((new_perm, flips + [flip_index + 1]))
+                # heapq.heappush(heap, (fitness(new_perm),new_perm, flips + [flip_index + 1]))
+                queue.append((fitness(new_perm), new_perm, flips + [flip_index + 1]))
         i += 1
         
     return []
 
+def pancake_sort_greedy(arr):
+    answer = []
+    greatest_element = len(arr)
+    
+    for index in range(len(arr)):
+        index_largest_element = arr.index(greatest_element - index)
+        
+        if index_largest_element == index: continue
+        
+        #reverse the array from the nth index
+        arr = flip(arr, index_largest_element)
+        # arr = arr[:index_largest_element] + arr[index_largest_element:][::-1]
+        
+        if index_largest_element != len(arr)-1:
+            answer.append(index_largest_element)
+            
+        #reverse the full array
+        arr = flip(arr, index)
+        # arr = arr[:index] + arr[index:][::-1]
+        
+        answer.append(index)
+    
+    return answer, arr
+
 arreglo = []
-for i in range(1, 15+1):
+for i in range(1, 1000+1):
     arreglo.append(i)
 random.shuffle(arreglo)
+
+# arreglo = [1, 4, 3, 2, 5]
+
 print("Arreglo desordenado:", arreglo)  # This should print the shuffled array [5, 4, 3, 2, 1]
 
-flips = pancake_graph_sort(arreglo)
+flips, arr = pancake_sort_greedy(arreglo)
 
 print("Secuencia de flips:", flips)
 #print("Arreglo ordenado:", sorted(arreglo, reverse=True))  # This should print the sorted array [5, 4, 3, 2, 1]
 # print(arreglo)
+
 for i in flips:
-    flip(arreglo,i-1)
+    arreglo = flip(arreglo,i)
     
 print("comprobacion: ", arreglo)
 
