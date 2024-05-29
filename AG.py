@@ -135,6 +135,8 @@
 # plt.title('Evolution of Avg Fitness With population size: {}'.format(population_size))
 # plt.legend()
 # plt.show()
+
+#Codigo de ChatGpt
 import random
 
 # Define the fitness function to minimize the number of out-of-order pairs
